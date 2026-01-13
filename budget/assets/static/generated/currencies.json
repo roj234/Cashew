@@ -543,8 +543,8 @@
     "NotKnown": true
   },
   "cny": {
-    "Currency": "Yuan Renminbi",
-    "Code": "CNY",
+    "Currency": "人民币元",
+    "Code": "元",
     "Symbol": "¥",
     "CountryName": "China",
     "CountryCode": "CN"
