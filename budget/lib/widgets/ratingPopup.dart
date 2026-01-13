@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:budget/functions.dart';
 import 'package:budget/pages/addTransactionPage.dart';
-import 'package:budget/struct/firebaseAuthGlobal.dart';
 import 'package:budget/struct/languageMap.dart';
 import 'package:budget/struct/settings.dart';
 import 'package:budget/widgets/animatedExpanded.dart';
@@ -203,64 +202,6 @@ class _RatingPopupState extends State<RatingPopup> {
 
 Future<bool> shareFeedback(String feedbackText, String feedbackType,
     {String? feedbackEmail, int? selectedStars}) async {
-  loadingIndeterminateKey.currentState?.setVisibility(true);
-  bool error = false;
-
-  try {
-    if ((selectedStars ?? 0) >= 4) {
-      if (await inAppReview.isAvailable()) inAppReview.requestReview();
-    }
-  } catch (e) {
-    print(e.toString());
-    error = true;
-  }
-
-  try {
-    FirebaseFirestore? db = await firebaseGetDBInstanceAnonymous();
-    if (db == null) {
-      throw ("Can't connect to db");
-    }
-    Map<String, dynamic> feedbackEntry = {
-      "stars": (selectedStars ?? -1) + 1,
-      "feedback": feedbackText,
-      "dateTime": DateTime.now(),
-      "feedbackType": feedbackType,
-      "email": feedbackEmail,
-      "platform": getPlatform().toString(),
-      "appVersion": getVersionString(),
-    };
-
-    DocumentReference feedbackCreatedOnCloud =
-        await db.collection("feedback").add(feedbackEntry);
-
-    openSnackbar(SnackbarMessage(
-        title: "feedback-shared".tr(),
-        description: "thank-you".tr(),
-        icon: appStateSettings["outlinedIcons"]
-            ? Icons.rate_review_outlined
-            : Icons.rate_review_rounded,
-        timeout: Duration(milliseconds: 2500)));
-  } catch (e) {
-    print(e.toString());
-    error = true;
-  }
-  if (error == true) {
-    print("Error leaving review on store");
-    openSnackbar(SnackbarMessage(
-        title: "Error Sharing Feedback",
-        description: "Please try again later",
-        icon: appStateSettings["outlinedIcons"]
-            ? Icons.warning_outlined
-            : Icons.warning_rounded,
-        timeout: Duration(milliseconds: 2500)));
-  }
-  loadingIndeterminateKey.currentState?.setVisibility(false);
-
-  if (selectedStars != -1) {
-    updateSettings("submittedFeedback", true,
-        pagesNeedingRefresh: [], updateGlobalState: false);
-  }
-
   return true;
 }
 
