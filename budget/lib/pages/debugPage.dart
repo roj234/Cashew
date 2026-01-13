@@ -417,20 +417,6 @@ class DebugPage extends StatelessWidget {
               ? Icons.animation_outlined
               : Icons.animation_rounded,
         ),
-        FutureBuilder<bool>(
-          future: inAppReview.isAvailable(),
-          builder: (context, snapshot) {
-            return SettingsContainer(
-              icon: Icons.store,
-              title: "Test store review integration",
-              description: "Available: " + snapshot.data.toString(),
-              onTap: () async {
-                if (await inAppReview.isAvailable())
-                  inAppReview.requestReview();
-              },
-            );
-          },
-        ),
         SettingsContainerSwitch(
           onSwitched: (value) async {
             updateSettings("incognitoKeyboard", value,

@@ -451,9 +451,6 @@ class _HomePageRatingBoxState extends State<HomePageRatingBox> {
       hidden = true;
     });
     updateSettings("openedStoreRating", true, updateGlobalState: true);
-    inAppReview.openStoreListing(
-      appStoreId: "6463662930",
-    );
   }
 
   @override
