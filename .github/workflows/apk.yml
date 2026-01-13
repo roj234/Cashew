@@ -2,11 +2,7 @@ name: Build Signed Android APK (v7a & v8a)
 
 on:
   workflow_dispatch:  # 手动触发
-    inputs:
-      reason:
-        description: '构建原因'
-        required: false
-        default: '手动构建签名APK'
+    inputs: {}
   push:
     branches: [ main, master ]
     paths:
@@ -121,11 +117,4 @@ jobs:
         with:
           name: cashew-signed-architecture-specific-apks
           path: budget/build/app/outputs/flutter-apk/cashew-*.apk
-          retention-days: 30
-
-      - name: Clean up sensitive files
-        if: always()
-        run: |
-          # 删除密钥库文件和属性文件
-          rm -f "$KEYSTORE_PATH" "$KEY_PROPERTIES_PATH"
-          echo "Sensitive files cleaned up"
+          retention-days: 7

@@ -3537,15 +3537,6 @@ class FinanceDatabase extends _$FinanceDatabase {
           }
         }
 
-        if (transaction.sharedKey != null && budget.sharedKey != null) {
-          sendTransactionSet(transaction, budget);
-          transaction =
-              transaction.copyWith(sharedStatus: Value(SharedStatus.waiting));
-        } else if (transaction.sharedKey == null && budget.sharedKey != null) {
-          sendTransactionAdd(transaction, budget);
-          transaction =
-              transaction.copyWith(sharedStatus: Value(SharedStatus.waiting));
-        }
       } else {
         if (transaction.sharedStatus == null &&
             originalTransaction != null &&
@@ -4036,38 +4027,7 @@ class FinanceDatabase extends _$FinanceDatabase {
 
   Future<int> createOrUpdateFromSharedBudget(Budget budget,
       {insert = false}) async {
-    if (budget.sharedKey != null) {
-      Budget sharedBudget;
-
-      try {
-        // entry exists, update it
-        List<Budget> sharedBudgets = await (select(budgets)
-              ..where((t) => t.sharedKey.equals(budget.sharedKey ?? "")))
-            .get();
-        if (sharedBudgets.isEmpty) throw ("Need to make a new entry");
-        sharedBudget = sharedBudgets.first;
-        sharedBudget = budget.copyWith(
-            budgetPk: sharedBudget.budgetPk,
-            order: sharedBudget.order,
-            pinned: sharedBudget.pinned);
-        return into(budgets).insertOnConflictUpdate(
-            sharedBudget.copyWith(dateTimeModified: Value(DateTime.now())));
-      } catch (e) {
-        int numberOfBudgets = (await database.getAmountOfBudgets());
-        // new entry is needed
-        sharedBudget = budget.copyWith(
-            dateTimeModified: Value(DateTime.now()), order: numberOfBudgets);
-        BudgetsCompanion companionToInsert = sharedBudget.toCompanion(true);
-        if (insert) {
-          // Use auto incremented ID when inserting
-          companionToInsert =
-              companionToInsert.copyWith(budgetPk: Value.absent());
-        }
-        return into(budgets).insert((companionToInsert));
-      }
-    } else {
-      return 0;
-    }
+    return 0;
   }
 
   Future<Budget> getSharedBudget(String sharedKey) async {
@@ -4137,37 +4097,7 @@ class FinanceDatabase extends _$FinanceDatabase {
 
   Future<int> createOrUpdateFromSharedTransaction(Transaction transaction,
       {bool insert = false}) async {
-    if (transaction.sharedKey != null) {
-      Transaction sharedTransaction;
-      try {
-        // entry exists, update it
-        List<Transaction> sharedTransactions = await (select(transactions)
-              ..where((t) =>
-                  t.sharedKey.equals(transaction.sharedKey ?? "") |
-                  t.sharedOldKey.equals(transaction.sharedKey ?? "")))
-            .get();
-        if (sharedTransactions.isEmpty) throw ("Need to make a new entry");
-        sharedTransaction = sharedTransactions[0];
-        sharedTransaction = transaction.copyWith(
-            transactionPk: sharedTransaction.transactionPk);
-        return into(transactions).insertOnConflictUpdate(sharedTransaction
-            .copyWith(dateTimeModified: Value(DateTime.now())));
-      } catch (e) {
-        print(e.toString());
-        // new entry is needed
-        transaction =
-            transaction.copyWith(dateTimeModified: Value(DateTime.now()));
-        TransactionsCompanion companionToInsert = transaction.toCompanion(true);
-        if (insert) {
-          // Use auto incremented ID when inserting
-          companionToInsert =
-              companionToInsert.copyWith(transactionPk: Value.absent());
-        }
-        return into(transactions).insert((companionToInsert));
-      }
-    } else {
-      return 0;
-    }
+    return 0;
   }
 
   Future<int> deleteFromSharedTransaction(String sharedTransactionKey) async {

@@ -41,11 +41,6 @@ Future<dynamic> getMembersFromBudget(String sharedKey, Budget budget) async {
   return null;
 }
 
-Future<bool> compareSharedToCurrentBudgets(
-    List<QueryDocumentSnapshot<Object?>> budgetSnapshot) async {
-  return false;
-}
-
 Future<bool> getCloudBudgets() async {
   return false;
 }
