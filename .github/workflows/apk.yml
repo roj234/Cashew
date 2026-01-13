@@ -1,4 +1,4 @@
-name: Build Signed Android APK (v7a & v8a)
+name: Build v8a APK
 
 on:
   workflow_dispatch:  # 手动触发

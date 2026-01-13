@@ -1,0 +1,35 @@
+name: Build for Web
+
+on:
+  workflow_dispatch:  # 手动触发
+    inputs: {}
+
+jobs:
+  # --- Web 构建任务 ---
+  build-web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: budget
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.3'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build Web
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Upload Web Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-release
+          path: budget/build/web/
+
