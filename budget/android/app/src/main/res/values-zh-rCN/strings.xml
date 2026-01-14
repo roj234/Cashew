@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">记账</string>
+    <string name="tap_to_configure">点按以配置小组件</string>
+    <string name="widget_transfer">新转账</string>
+    <string name="widget_transaction">新交易</string>
+    <string name="widget_net_total">总资产</string>
+    <string name="widget_net_total_wide">总资产 (宽)</string>
 </resources>

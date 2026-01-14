@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Cashew</string>
+    <string name="tap_to_configure">Tap to configure widget</string>
+    <string name="widget_transfer">New Transfer</string>
+    <string name="widget_transaction">New Transaction</string>
+    <string name="widget_net_total">Net Total</string>
+    <string name="widget_net_total_wide">Net Total (Wide)</string>
 </resources>

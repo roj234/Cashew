@@ -26,6 +26,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install pngquant
+        run: sudo apt-get install -y pngquant
+
+      - name: Compress PNGs
+        run: |
+          # 定义需要处理的目录数组
+          TARGET_DIRS=("assets/categories" "assets/icon" "assets/images" "assets/landing" "android/app/src/main/res/drawable")
+          
+          for dir in "${TARGET_DIRS[@]}"; do
+            if [ -d "$dir" ]; then
+              echo "Processing $dir..."
+              # 使用 find 避免 *.png 匹配不到文件时的报错
+              # --nofs: 禁用抖动，防止 Icon 边缘色偏（针对你的需求）
+              # --strip: 移除元数据进一步减小体积
+              # --skip-if-larger: 如果压缩后变大则保留原图
+              find "$dir" -maxdepth 1 -name "*.png" -exec pngquant --nofs --quality 95-100 --speed 1 --ext .png --force --strip --skip-if-larger {} \;
+            fi
+          done
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:

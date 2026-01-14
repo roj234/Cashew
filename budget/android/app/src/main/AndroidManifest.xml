@@ -12,16 +12,6 @@
       <action android:name="android.intent.action.VIEW" />
       <data android:scheme="https" />
     </intent>
-    <!-- If your app makes calls -->
-    <intent>
-      <action android:name="android.intent.action.DIAL" />
-      <data android:scheme="tel" />
-    </intent>
-    <!-- If your sends SMS messages -->
-    <intent>
-      <action android:name="android.intent.action.SENDTO" />
-      <data android:scheme="smsto" />
-    </intent>
     <!-- If your app sends emails -->
     <intent>
       <action android:name="android.intent.action.SEND" />
@@ -92,7 +82,7 @@
             </intent-filter>
         </service>
         <receiver android:name="PlusWidgetProvider"
-            android:exported="true" android:label="Transaction Shortcut">
+            android:exported="true" android:label="@string/widget_transaction">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -100,7 +90,7 @@
                 android:resource="@xml/plus_widget" />
         </receiver>
         <receiver android:name="TransferWidgetProvider"
-            android:exported="true" android:label="Transfer Shortcut">
+            android:exported="true" android:label="@string/widget_transfer">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -108,7 +98,7 @@
                 android:resource="@xml/transfer_widget" />
         </receiver>
         <receiver android:name="NetWorthPlusWidgetProvider"
-            android:exported="true" android:label="Net Total Wide">
+            android:exported="true" android:label="@string/widget_net_total_wide">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -116,7 +106,7 @@
                 android:resource="@xml/net_worth_plus_widget" />
         </receiver>
         <receiver android:name="NetWorthWidgetProvider"
-            android:exported="true" android:label="Net Total">
+            android:exported="true" android:label="@string/widget_net_total">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
